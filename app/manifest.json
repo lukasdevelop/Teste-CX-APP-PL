@@ -1,25 +1,23 @@
 {
-  "name": "Test APP",
+  "name": "Test Activate Events",
   "author": {
-    "name": "Lucas Amaral",
-    "email": "analista.sistemas.lucas@gmail.com",
-    "url": "https://eteg.com.br"
+    "name": "Lucas",
+    "email": "analista.sistemas.lucas@gmail.com"
   },
-  "defaultLocale": "pt",
+  "defaultLocale": "en",
   "private": true,
   "location": {
     "support": {
-      "user_sidebar": "assets/iframe.html"
+      "ticket_sidebar": "assets/iframe.html",
+      "new_ticket_sidebar": "assets/iframe.html",
+      "nav_bar":"assets/iframe.html",
+      "top_bar":"assets/iframe.html",
+      "user_sidebar": "assets/iframe.html",
+      "organization_sidebar": "assets/iframe.html",
+      "ticket_editor": "assets/iframe.html",
+      "background": "assets/iframe.html"
     }
   },
-  "parameters": [
-    {
-      "name": "apiBaseUrl",
-      "type": "text",
-      "required": false,
-      "default": "https://yourAPIEnvURL/requests"
-    }
-  ],
-  "version": "1.4",
+  "version": "1.0",
   "frameworkVersion": "2.0"
 }
