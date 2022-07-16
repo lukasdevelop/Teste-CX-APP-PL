@@ -25,7 +25,9 @@
       return client.request(options)
       .then((results) => {
           document.querySelector("#apiCallResults").innerHTML = "Success!";
-          console.log("Example 2 call results:", results);
+
+          client.invoke('ticket.comment.appendText', JSON.stringify(results))
+
         })
         .catch((error) => {
           document.querySelector("#apiCallResults").innerHTML = "Fail!";
