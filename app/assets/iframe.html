@@ -1,14 +1,16 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
+
 <body>
   <h2>Meu Teste Técnico</h2>
   <label for="cep">Digite um CEP: </label>
   <input placeholder="CEP" name="cep" id="cep" onblur="searchCEP(this.value)" value="" size="10" max="9">
-  <h3>Results:</h3>
+  <h3>Últimos Tickets:</h3>
   <p id="apiCallResults"></p>
   <script type="text/javascript" src="https://assets.zendesk.com/apps/sdk/2.0/zaf_sdk.js"></script>
   <script>
@@ -21,10 +23,18 @@
         type: 'GET',
         //cors: true
       };
-      
+
       return client.request(options)
-      .then((results) => {
-          document.querySelector("#apiCallResults").innerHTML = "Success!";
+        .then( (results) => {
+
+            results.tickets.map(item => {
+
+              const tickets = `Titulo: ${item.subject} - Descrição: ${item.description} - Status: ${item.status}<br>\n` 
+              
+              document.querySelector("#apiCallResults").innerHTML += tickets
+
+            })
+
 
           const apiCep = (cep) => `https://viacep.com.br/ws/${cep}/json/`
 
@@ -37,11 +47,11 @@
 
           getCep(cep).then((cep) => {
 
-            const result = 
-            `
-            CEP: ${cep.cep} - \n
-            Logradouro: ${cep.logradouro} \n
-            Complemento: ${cep.complemento} \n
+            const result =
+              `
+            CEP: ${cep.cep} - <br>\n
+            Logradouro: ${cep.logradouro} <br>\n
+            Complemento: ${cep.complemento} <br>\n
             Bairro: ${cep.bairro} - \n
             Cidade: ${cep.localidade} / ${cep.uf} \n
             `
@@ -49,7 +59,6 @@
             client.invoke('ticket.comment.appendText', result)
 
           })
-
         })
         .catch((error) => {
           document.querySelector("#apiCallResults").innerHTML = "Fail!";
@@ -57,6 +66,7 @@
         });
     }
 
-    </script>
+  </script>
 </body>
+
 </html>
