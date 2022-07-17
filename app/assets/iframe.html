@@ -6,18 +6,18 @@
 </head>
 <body>
   <h2>Meu Teste Técnico</h2>
-  <button onClick="setField()">Setar Campo</button>
+  <label for="cep">Digite um CEP: </label>
+  <input placeholder="CEP" name="cep" id="cep" onblur="searchCEP(this.value)" value="" size="10" max="9">
   <h3>Results:</h3>
   <p id="apiCallResults"></p>
   <script type="text/javascript" src="https://assets.zendesk.com/apps/sdk/2.0/zaf_sdk.js"></script>
   <script>
     let client = ZAFClient.init();
 
-    function setField() {
+    function searchCEP(cep) {
 
       let options = {
         url: '/api/v2/tickets.json',
-        //url: remoteUrl,
         type: 'GET',
         //cors: true
       };
@@ -26,12 +26,34 @@
       .then((results) => {
           document.querySelector("#apiCallResults").innerHTML = "Success!";
 
-          client.invoke('ticket.comment.appendText', JSON.stringify(results))
+          const apiCep = (cep) => `https://viacep.com.br/ws/${cep}/json/`
+
+          let getCep = async (cep) => {
+            let response = await fetch(apiCep(cep))
+            let cepJson = response.json()
+
+            return cepJson
+          }
+
+          getCep(cep).then((cep) => {
+
+            const result = 
+            `
+            CEP: ${cep.cep} - \n
+            Logradouro: ${cep.logradouro} \n
+            Complemento: ${cep.complemento} \n
+            Bairro: ${cep.bairro} - \n
+            Cidade: ${cep.localidade} / ${cep.uf} \n
+            `
+
+            client.invoke('ticket.comment.appendText', result)
+
+          })
 
         })
         .catch((error) => {
           document.querySelector("#apiCallResults").innerHTML = "Fail!";
-          console.log("Example 2 call error:", error);
+          console.log("Error:", error);
         });
     }
 
